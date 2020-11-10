@@ -1,0 +1,97 @@
+<?php 
+    require_once('includes/db.php');
+
+    $sql = "SELECT * FROM notes";
+    $notes = mysqli_query($conn, $sql);
+
+?>
+
+<?php 
+    require_once('includes/db.php');
+    require_once('includes/functions.php');
+
+    if ($_SERVER['REQUEST_METHOD'] == "POST"){
+        $username = prep_input($_POST['username']);
+        $lastname = prep_input($_POST['lastname']);
+        $email = prep_input($_POST['email']);
+;
+        $tel = prep_input($_POST['tel']);
+
+        $sql = "INSERT INTO notes (username, lastname,email,tel) VALUES ('";
+        $sql .= $username. "', '" . $lastname . "', '" . $email. "', '" . $tel. "')";
+
+ 
+       if (mysqli_query($conn, $sql)){                   
+header("Location:login.php");
+                    
+        
+          }
+    }
+
+?>
+ 
+
+<?php while ($note = mysqli_fetch_assoc($notes)) { ?>
+                    <div class="note">
+                        <div class="titleContainer">
+                            <span class="nt-title"> <h4>added user:<?php echo $note['username']; ?> <?php echo $note['lastname'];?><h4>
+                   </span>
+                            <div class="nt-links">
+                                <a class="nt-link" href=<?php echo "delete.php?id=" . $note['id']; ?>>delete userinfo</a>
+                            </div>                 
+                        </div>
+                    
+                         <div class="nt-content">
+                    <h3>mobilenumber:<?php echo  $note['tel'];?></h3><br/>
+                    
+                         <?php echo $note['email'];?></div>
+                    </div>
+                         <?php }
+                         mysqli_free_result($notes);
+                         ?>
+        </div>
+<!--<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8"/>
+<meta name="author" content="ANUSHA"/>
+<meta name="description" content="SELECTION HOUSE"/>
+<meta name="keywords" content="GIVE YOUR KEYWORDS FOR"/>
+<title>ANU-HOUSE</title>
+<link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+</head>
+<body>
+<header class="header">
+<div class="wrapper">
+<h1>HOUSE RENTAL SYSTEM</h1>
+</div>
+
+</header>
+<div class="main" >
+<div class="wrapper">
+<div class="book-house">
+<div class="booking-detils">
+<h3>LOGIN</h3>
+<form>
+<span class="name">User name</span>
+<input type="text" name="username" placeholder="user name please" required="true"/><br/>
+<span class="name">Password</span>
+<input type="password" name="password" placeholder="password please" required="true"/><br/>
+<input type="submit" name="submit" placeholder="LOGIN"/>
+<input type="reset" name="reset" placeholder="RESET"/><br/>
+<a href="index.html">GO HOME</a>
+
+
+</form>
+</div>
+
+</div>
+</div>
+<footer class="footer">
+<div class="wrapper"><p>&copy;<a href="#">House rent</a>.All rights reserved 2020</p>
+</div>
+
+</footer>
+</body>
+</html>-->
+
